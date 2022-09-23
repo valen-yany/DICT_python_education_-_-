@@ -1,1 +1,2 @@
-Вале Валентин Я��ницький 519ст�
+Yanytskyi Valentyn 519st
+Nadejda Kozhemiakina
