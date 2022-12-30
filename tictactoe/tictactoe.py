@@ -23,13 +23,14 @@ def tictactoe():
         print("---------")
         print(f"|{'  '.join(game[0])}|\n|{'  '.join(game[1])}|\n|{'  '.join(game[2])}|")
         print("---------")
-        if (game[0].count(player * 3) + game[1].count(player * 3) + game[2].count(player * 3) + (
-                game[0][0] + game[1][1] + \
-                game[2][2]).count(player * 3) + (game[0][2] + game[1][1] + game[2][0]).count(player * 3) + (
-                    game[0][0] + game[1][0] + \
-                    game[2][0]).count(player * 3) + (game[0][1] + game[1][1] + game[2][1]).count(player * 3) + (
-                    game[0][2] + game[1][2] + \
-                    game[2][2]).count(player * 3)) == 1:
+        if ((game[0][0] + game[0][1] + game[0][2]).count(player * 3) +
+            (game[1][0] + game[1][1] + game[1][2]).count(player * 3) +
+            (game[2][0] + game[2][1] + game[2][2]).count(player * 3) +
+            (game[0][0] + game[1][1] + game[2][2]).count(player * 3) +
+            (game[0][2] + game[1][1] + game[2][0]).count(player * 3) +
+            (game[0][0] + game[1][0] + game[2][0]).count(player * 3) +
+            (game[0][1] + game[1][1] + game[2][1]).count(player * 3) +
+            (game[0][2] + game[1][2] + game[2][2]).count(player * 3)) == 1:
             print(f"{player} wins")
             return None
         if '_' not in game[0] and '_' not in game[1] and '_' not in game[2]:
