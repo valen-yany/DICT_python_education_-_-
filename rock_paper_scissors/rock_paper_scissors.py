@@ -1,17 +1,23 @@
 import random
+import sys
+
 
 class RPS:
     def __init__(self):
         self.__option_list = ['rock', 'paper', 'scissors']
-        self.__game()
+        while True:
+            self.__game()
 
     def __computer_choice(self):
         return random.choice(self.__option_list)
 
     def __player_turn(self):
         player_choice = input('>')
-        while player_choice not in self.__option_list:
-            player_choice = input('Choice the correct option:\n>')
+        while player_choice not in self.__option_list or player_choice != '!exit':
+            player_choice = input('Invalid input:\n>')
+        if player_choice == '!exit':
+            print('Bye!')
+            sys.exit()
         return player_choice
 
     def __result(self, player, computer):
