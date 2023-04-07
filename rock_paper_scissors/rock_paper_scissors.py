@@ -4,7 +4,6 @@ import sys
 
 class RPS:
     def __init__(self):
-        self.__option_list = ['rock', 'paper', 'scissors']
         self.__name = input('Enter your name:>')
         self.__points = 0
         with open('rating.txt', 'r') as f:
@@ -12,6 +11,11 @@ class RPS:
                 leader = line.split(' ')
                 if self.__name == leader[0]:
                     self.__points = int(leader[1])
+        print(f'Hello, {self.__name}!')
+        self.__option_list = input('>').split(',')
+        if len(self.__option_list) < 3 or len(self.__option_list) % 2 == 0:
+            self.__option_list = ['rock', 'paper', 'scissors']
+        print('Okay, let`s start!')
         while True:
             self.__game()
 
@@ -26,7 +30,7 @@ class RPS:
                 print(f'Your rating: {self.__points}')
                 continue
             elif player_input == '!exit':
-                print('Bye!')
+                print(f'Bye, {self.__name}!')
                 sys.exit()
             elif player_input in self.__option_list:
                 break
@@ -34,10 +38,13 @@ class RPS:
         return player_input
 
     def __result(self, player, computer):
+        lose_list = []
+        for i in range(1, len(self.__option_list) // 2 + 1):
+            lose_list.append(self.__option_list[self.__option_list.index(computer) - i])
         if player == computer:
             print(f'There is a draw({computer})')
             self.__points += 50
-        elif player == self.__option_list[self.__option_list.index(computer) - 1]:
+        elif player in lose_list:
             print(f'Sorry, but the computer chose {computer}')
         else:
             print(f'Well done. The computer chose {computer} and failed')
