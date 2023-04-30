@@ -39,6 +39,7 @@ def game():
     reserve = []
     status = 0
     turn = ''
+    message = ''
     first_turn = []
     snake = []
     while status == 0:
@@ -47,17 +48,25 @@ def game():
         computer_hand = new_hand(reserve)
         status, first_turn = status_check(player_hand, computer_hand)
     if status == 1:
-        turn = 'computer'
+        turn = 'player'
+        message = 'It\'s your turn to make a move. Enter your command.'
         player_hand.remove(first_turn)
     else:
-        turn = 'player'
+        turn = 'computer'
+        message = 'Computer is about to make a move. Press Enter to continue...'
         computer_hand.remove(first_turn)
     snake += first_turn
-    print(f'''Stock pieces: {reserve}
-Computer pieces: {computer_hand}
-Player pieces: {player_hand}
+    player_hand_formatted = [f'{num}: {piece}' for num, piece in enumerate(player_hand)]
+    print(f'''{'=' * 70}
+Stock size: {len(reserve)}
+Computer pieces: {len(computer_hand)}
+
 Snake: {snake}
-Status: {turn}''')
+
+Your pieces: ''')
+    for i in player_hand_formatted:
+        print(i)
+    print(f"\nStatus: {message}")
 
 
 game()
