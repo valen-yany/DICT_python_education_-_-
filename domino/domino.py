@@ -91,39 +91,40 @@ class Domino:
         return False
 
     def comp_turn(self):
-        turns = [i for i in range(-len(self.comp_hand), len(self.comp_hand) + 1) if i != 0]
-        while len(turns) > 0:
-            turn = random.choice(turns)
-            if turn > 0:
-                if self.snake[-1][1] == self.comp_hand[turn-1][0]:
-                    self.snake += [self.comp_hand[turn-1]]
-                    self.comp_hand.remove(self.comp_hand[turn-1])
-                    break
-                elif self.snake[-1][1] == self.comp_hand[turn-1][1]:
-                    self.snake += [self.comp_hand[turn - 1][::-1]]
-                    self.comp_hand.remove(self.comp_hand[turn - 1])
-                    break
-                else:
-                    turns.remove(turn)
-                    continue
-            elif turn < 0:
-                if self.snake[0][0] == self.comp_hand[-turn-1][1]:
-                    self.snake = [self.comp_hand[-turn-1]] + self.snake
-                    self.comp_hand.remove(self.comp_hand[-turn - 1])
-                    break
-                elif self.snake[0][0] == self.comp_hand[-turn-1][0]:
-                    self.snake = [self.comp_hand[-turn - 1][::-1]] + self.snake
-                    self.comp_hand.remove(self.comp_hand[-turn - 1])
-                    break
-                else:
-                    turns.remove(turn)
-                    continue
+        snake = ''
+        for i in self.snake:
+            snake += ''.join(list(map(str, i)))
+        turns = [[snake.count(str(i[0])) + snake.count(str(i[1])), i] for i in self.comp_hand]
+        turns.sort(key=lambda i: i[0], reverse=True)
+        for turn in turns:
+            if self.snake[-1][1] == turn[1][0]:
+                self.snake += [turn[1]]
+                self.comp_hand.remove(turn[1])
+                return None
+            elif self.snake[-1][1] == turn[1][1]:
+                self.snake += [turn[1][::-1]]
+                self.comp_hand.remove(turn[1])
+                return None
+            elif self.snake[0][0] == turn[1][1]:
+                self.snake = turn[1] + self.snake
+                self.comp_hand.remove(turn[1])
+                return None
+            elif self.snake[0][0] == turn[1][0]:
+                self.snake = [turn[1][::-1]] + self.snake
+                self.comp_hand.remove(turn[1])
+                return None
         if len(self.stack) > 0:
             self.comp_hand.append(random.choice(self.stack))
             self.stack.remove(self.comp_hand[-1])
 
     def game(self):
         status = self.message[self.turn]
+        snake = ''
+        for num, piece in self.snake:
+            if num == len(self.snake) - 1:
+                snake = f'{snake},{piece}'
+            else:
+                snake = f'{snake},{piece},'
         while True:
             player_hand_formatted = [f'{num+1}: {piece}' for num, piece in enumerate(self.player_hand)]
             print(f'''{'=' * 70}
